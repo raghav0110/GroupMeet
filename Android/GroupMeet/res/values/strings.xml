@@ -4,5 +4,10 @@
     <string name="app_name">GroupMeet</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="edit_message">Username</string>
+    <string name="email_message">Email</string>
+    <string name="passwd_message">Password</string>
+    <string name="pwdconfirm_message">Confirm Password</string>
+    <string name="create_button">Create account</string>
 
 </resources>
