@@ -9,5 +9,7 @@
     <string name="passwd_message">Password</string>
     <string name="pwdconfirm_message">Confirm Password</string>
     <string name="create_button">Create account</string>
+    <color name="text_color">#31D1F1</color>
+    <color name="white">#ffffff</color>
 
 </resources>
