@@ -8,8 +8,14 @@
     <string name="email_message">Email</string>
     <string name="passwd_message">Password</string>
     <string name="pwdconfirm_message">Confirm Password</string>
-    <string name="create_button">Create account</string>
     <color name="text_color">#31D1F1</color>
     <color name="white">#ffffff</color>
+    <string name="app_id">321412014655127</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="passwd">Password</string>
+    <string name="pwdconfirm">Confirm Password</string>
+    <string name="create_button">Create Account</string>
+    <string name="askfacebook">Do you have a facebook account?</string>
 
 </resources>
