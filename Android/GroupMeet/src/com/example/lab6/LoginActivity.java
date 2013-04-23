@@ -2,13 +2,14 @@ package com.example.lab6;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class LoginActivity extends Activity {
 	EditText text_username, text_email, text_passwd, text_pwdconfirm;
 	Button createAccount;
     @Override
@@ -49,13 +50,16 @@ public class MainActivity extends Activity {
 				{
 					//save to database here
 					
-					Toast.makeText(getApplicationContext(), "Account successfully created", Toast.LENGTH_LONG).show();
-					
+					Toast.makeText(getApplicationContext(), "Account Successfully Created", Toast.LENGTH_LONG).show();
+					Intent i = new Intent(LoginActivity.this, MainPageActivity.class);
+					startActivity(i);
 				}
 			}
 				// TODO Auto-generated method stub
 				
 		});
+		
+		
     }
     protected void onDestroy(){
 		super.onDestroy();
