@@ -124,7 +124,7 @@ public class LoginActivity extends Activity {
     	StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
     	StrictMode.setThreadPolicy(policy); 
     	HttpClient httpclient = new DefaultHttpClient();
-    	HttpPost httppost = new HttpPost("http://sslab00.cs.purdue.edu:1234/insertUser.php");
+    	HttpPost httppost = new HttpPost("http://data.cs.purdue.edu:12345/insertUser.php");
     	
     
     	try {
