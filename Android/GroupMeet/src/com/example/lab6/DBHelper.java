@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 
 public class DBHelper extends SQLiteOpenHelper {
-	static int DATABASE_VERSION = 3;
+	static int DATABASE_VERSION = 5;
 	public DBHelper(Context context, String dbname)
 	{
 		super(context, dbname, null, DATABASE_VERSION);
@@ -16,6 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	{		
 		db.execSQL(DBAdapter.DATABASE_CREATE);
 		db.execSQL(DBAdapter.DATABASE_CREATE2);
+		db.execSQL(DBAdapter.DATABASE_CREATE3);
 	}
 
 	@Override
@@ -23,6 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	{
 		db.execSQL("DROP TABLE IF EXISTS " + DBAdapter.DATABASE_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + DBAdapter.DATABASE_TABLE2);
+		db.execSQL("DROP TABLE IF EXISTS " + DBAdapter.DATABASE_TABLE3);
 		onCreate(db);
 	}
 }
