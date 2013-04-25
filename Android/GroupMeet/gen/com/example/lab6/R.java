@@ -143,8 +143,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int list_item_background=0x7f020004;
     }
     public static final class id {
-        public static final int action_settings=0x7f040020;
+        public static final int action_settings=0x7f040023;
         public static final int calendar=0x7f040012;
+        public static final int confirm=0x7f04001e;
         public static final int create_button=0x7f040011;
         public static final int create_meeting=0x7f040013;
         public static final int create_meeting_button=0x7f040007;
@@ -156,12 +157,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int gridview=0x7f040019;
         public static final int header=0x7f040014;
         public static final int hours_gridView=0x7f04000a;
-        public static final int hours_text=0x7f04001c;
+        public static final int hours_text=0x7f04001f;
         public static final int invites=0x7f040006;
         public static final int left=0x7f040000;
-        public static final int listView1=0x7f04001e;
+        public static final int listView1=0x7f040021;
         public static final int margin=0x7f040002;
-        public static final int meeting_item=0x7f04001d;
+        public static final int meeting_item=0x7f040020;
         public static final int meeting_name=0x7f040005;
         public static final int next=0x7f040017;
         public static final int next_week=0x7f04000b;
@@ -170,8 +171,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int previous_week=0x7f04000c;
         public static final int pwdconfirm=0x7f040010;
         public static final int right=0x7f040001;
+        public static final int scrollView1=0x7f04001c;
+        public static final int selectIntersection=0x7f04001d;
         public static final int selected_view=0x7f040004;
-        public static final int slidingmenumain=0x7f04001f;
+        public static final int slidingmenumain=0x7f040022;
         public static final int submit_times=0x7f040008;
         public static final int title=0x7f040016;
         public static final int username=0x7f04000d;
@@ -184,10 +187,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int activity_mainpage=0x7f030003;
         public static final int calendar=0x7f030004;
         public static final int calendar_item=0x7f030005;
-        public static final int hourview_item=0x7f030006;
-        public static final int meeting_list_item=0x7f030007;
-        public static final int pending_meeting=0x7f030008;
-        public static final int slidingmenumain=0x7f030009;
+        public static final int confirm_intersection=0x7f030006;
+        public static final int hourview_item=0x7f030007;
+        public static final int meeting_list_item=0x7f030008;
+        public static final int pending_meeting=0x7f030009;
+        public static final int slidingmenumain=0x7f03000a;
     }
     public static final class menu {
         public static final int main=0x7f090000;
