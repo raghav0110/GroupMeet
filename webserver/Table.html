@@ -1,0 +1,21 @@
+<html>
+<title>Create Table for Database </title>
+<body>
+
+<form action="http://data.cs.purdue.edu:12345/Table.php" method="post">
+    Please enter name of the Table you would like to create: <br>
+    Table: <input type="text" name="name" />
+    <br>
+    SQL Table Creation statement <input type = "text" name="query" />
+	<br>
+	<i>sql table creation statement example:
+	"(FirstName CHAR(30),LastName CHAR(30),Age INT)"
+	<br>
+	will create a table with Firstname, last name both with CHAR(30), and an Age Column as an INT
+	<br></i>
+	<input type="submit" />
+</form>
+
+</body>
+</html>
+
