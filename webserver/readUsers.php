@@ -19,7 +19,7 @@ if(!$result){
 echo "<table border='1'>
 <tr>
 <th>UserName</th>
-<th>Password(un-encrypted)</th>
+<th>Password</th>
 </tr>";
 
 while($row = mysql_fetch_array($result))

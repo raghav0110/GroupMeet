@@ -1,10 +1,7 @@
 <?php
 
 /*
-This script returns all timess that A given event has;
-if the event does not exist it returns a json object with a "PASSED" index
-and a "message" indicating the error.
-
+ Find if an Event has been confirmed or not.
  */
 
 $response = array();
@@ -21,29 +18,30 @@ if(!$con)
 	exit();
 }
 
-//Name of User to search with
-$Event = mysql_real_escape_string($_POST[event]);
+//POST arguments go here
+$Event = $_POST[event];
 $User = $_POST[user];
 
 //make the Default Database GroupMeet
 
 mysql_select_db("$Database", $con);
+/*
+//check if necessary Posts exists exists
 
-//check if Event exists
-
-$query = mysql_query("SELECT * FROM Events WHERE EventName = '$Event'",$con);
+$query = mysql_query("<existance query>",$con);
 if(mysql_num_rows($query) <= 0)
 {
 
 	$response["PASSED"] = 0;
-	$response["message"] = "$Event doesn't exist";
+	$response["message"] = "<argument doesn't exist> doesn't exist";
 	echo json_encode($response);
 	exit();
 
 }
-
-//get all Times for events;
-$result = mysql_query("SELECT * FROM Times WHERE EventName='$Event' AND UserName='$User'",$con);
+ */
+$Event = mysql_real_escape_string($Event);
+//actual query for script;
+$result = mysql_query("Select * from Events where EventDate IS NOT NULL AND UserName='$User' AND EventName='$Event';",$con);
 //if failed
 if(!$result){
 
@@ -57,18 +55,11 @@ if(!$result){
 //check for empty result
 if(mysql_num_rows($result) > 0) {
 
-$response["Dates"] = array();
 
-while($row = mysql_fetch_array($result))
-{
-	//temp array
-	$product = array();
-	$product["time"] = $row['DateTime'];
-	//push single product into final response array
-	array_push($response["Dates"], $product);
+$row = mysql_fetch_array($result);
 
-}
-
+$response["confirm"] = $row['EventDate'];
+$response["message"] = "$Event was confirmed for " . $row['EventDate'];
 $response["PASSED"] = 1;
 //send JSON response
 
@@ -77,7 +68,7 @@ echo json_encode($response);
 } else {
 //failed; send failure message;
 	$response["PASSED"] = 0;
-	$response["message"] = "No Times Found";
+	$response["message"] = "$Event not confirmed";
 	echo json_encode($response);
 
 }

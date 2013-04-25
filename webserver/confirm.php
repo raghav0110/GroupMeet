@@ -61,7 +61,7 @@ echo json_encode($response);
 else
 { //failed; send failure message;
 	$response["PASSED"] = 0;
-	$response["message"] = "No Update Query failed";
+	$response["message"] = "Update Query failed";
 	echo json_encode($response);
 }
 
