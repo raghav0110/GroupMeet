@@ -16,6 +16,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.Menu;
@@ -33,6 +34,7 @@ public class LoginActivity extends Activity {
 	EditText text_username, text_email, text_passwd, text_pwdconfirm;
 	Button createAccount, fbButton;
 	LoginButton loginButton;
+    private SharedPreferences mPrefs;
     
 
     @Override
@@ -44,10 +46,18 @@ public class LoginActivity extends Activity {
 		text_passwd = (EditText)findViewById(R.id.passwd);
 		text_pwdconfirm = (EditText)findViewById(R.id.pwdconfirm);
 		createAccount = (Button)findViewById(R.id.create_button);
-		loginButton = (LoginButton)findViewById(R.id.login_button);
-		final Session.NewPermissionsRequest newPermissionsRequest = new Session.NewPermissionsRequest(this, Arrays.asList("email"));
+		//loginButton = (LoginButton)findViewById(R.id.login_button);
+		//final Session.NewPermissionsRequest newPermissionsRequest = new Session.NewPermissionsRequest(this, Arrays.asList("email"));
+		mPrefs = getSharedPreferences("CurrentUser", MODE_PRIVATE);
 		
-		loginButton.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
+		
+		if(checkLoginInfo())
+		{
+			Intent i = new Intent(LoginActivity.this, MainPageActivity.class);
+			startActivity(i);
+			finish();
+		}
+		/*loginButton.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
 
 			@Override
 			public void onUserInfoFetched(GraphUser user) {
@@ -55,6 +65,10 @@ public class LoginActivity extends Activity {
 				if(user!=null)
 				{
 					Session.getActiveSession().requestNewReadPermissions(newPermissionsRequest);
+					SharedPreferences.Editor editor = mPrefs.edit();
+					editor.putString("UserName", user.getProperty("email").toString());
+					editor.putString("PassWord", "facebook");
+					editor.commit();
 					Toast.makeText(getApplicationContext(), "Facebook account successfully logged in", Toast.LENGTH_LONG).show();
 					
 					sendToServer(user.getProperty("email").toString(), "facebook");
@@ -65,7 +79,7 @@ public class LoginActivity extends Activity {
 				}
 			}
 		});
-
+*/
 		//General create account function
 		createAccount.setOnClickListener(new View.OnClickListener() {
 
@@ -99,6 +113,11 @@ public class LoginActivity extends Activity {
 
 					Toast.makeText(getApplicationContext(), "Account successfully created", Toast.LENGTH_LONG).show();
 					
+					SharedPreferences.Editor editor = mPrefs.edit();
+					editor.putString("UserName", email);
+					editor.putString("PassWord", pwd);
+					editor.commit();
+					
 					sendToServer(email,pwd);
 					
 					
@@ -118,6 +137,16 @@ public class LoginActivity extends Activity {
 	}
 	
 
+    private final boolean checkLoginInfo()
+    {
+    	boolean username = mPrefs.contains("UserName");
+    	boolean pwd = mPrefs.contains("PassWord");
+    	if(username || pwd)
+    	{
+    		return true;
+    	}
+    	return false;
+    }
     
     protected void sendToServer(String email, String password)
     {
