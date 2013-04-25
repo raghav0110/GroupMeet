@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GroupMeet</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="app_id">321412014655127</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="passwd">Password</string>
+    <string name="pwdconfirm">Confirm Password</string>
+    <string name="create_button">Create Account</string>
+    <string name="askfacebook">Do you have a facebook account?</string>
+    
+
+</resources>
