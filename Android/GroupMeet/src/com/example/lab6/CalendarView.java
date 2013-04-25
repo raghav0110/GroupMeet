@@ -2,8 +2,6 @@ package com.example.lab6;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Random;
-
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class CalendarView extends Activity {
@@ -22,6 +21,7 @@ public class CalendarView extends Activity {
 	public Calendar month;
 	public CalendarAdapter adapter;
 	public Handler handler;
+	public DBAdapter dbadapter;
 	public ArrayList<String> items; // container to store some random calendar items
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,12 @@ public class CalendarView extends Activity {
 	    data.setVisibility(TextView.INVISIBLE);
 	    items = new ArrayList<String>();
 	    adapter = new CalendarAdapter(this, month);
+	    dbadapter = new DBAdapter(this);
+	    dbadapter = dbadapter.open();
+	    //dbadapter.insertEntry2("Raggy's fuck party", "2013-04-24 23:00:00");
+	    //dbadapter.insertEntry2("Clyde's fuck party", "2013-04-24 24:00:00");
+	    //dbadapter.insertEntry2("Eric's fuck party", "2013-04-24 20:00:00");
+	    
 	    
 	    GridView gridview = (GridView) findViewById(R.id.gridview);
 	    gridview.setAdapter(adapter);
@@ -42,7 +48,7 @@ public class CalendarView extends Activity {
 	    handler = new Handler();
 	    handler.post(calendarUpdater);
 	    
-	    TextView title  = (TextView) findViewById(R.id.title);
+	    final TextView title  = (TextView) findViewById(R.id.title);
 	    title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
 	    
 	    TextView previous  = (TextView) findViewById(R.id.previous);
@@ -77,8 +83,19 @@ public class CalendarView extends Activity {
 		gridview.setOnItemClickListener(new OnItemClickListener() {
 		    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 		    	data.setVisibility(TextView.VISIBLE);
-		    	data.setText("Event1\nEvent2\nEvent3\nEvent5");
-		    }
+		    	TextView t = (TextView)v.findViewById(R.id.date);
+		    	String mymonth = (String)android.text.format.DateFormat.format("MM", month);
+		    	String myyear = (String) android.text.format.DateFormat.format("yyyy", month);
+		    	String mydate = t.getText().toString();
+		    	if(mydate.length() == 1)
+		    	{
+		    		mydate = "0"+mydate;
+		    	}
+		    	String dateresult = myyear+"-"+mymonth+"-"+mydate;
+		    	data.setText(dbadapter.searchforConfirmedDB(dateresult));
+		    	//dbadapter.searchforConfirmedDB(dateresult);
+		    	//Toast.makeText(getApplicationContext(), dbadapter.searchforConfirmedDB(dateresult), Toast.LENGTH_LONG).show();
+			}
 		});
 	}
 	

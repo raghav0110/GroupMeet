@@ -3,7 +3,6 @@ package com.example.lab6;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -25,16 +24,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.facebook.Session;
-import com.facebook.model.GraphUser;
-import com.facebook.widget.LoginButton;
-
 public class LoginActivity extends Activity {
 
 	EditText text_username, text_email, text_passwd, text_pwdconfirm;
 	Button createAccount, fbButton;
-	LoginButton loginButton;
-    private SharedPreferences mPrefs;
+	private SharedPreferences mPrefs;
     
 
     @Override
@@ -184,7 +178,7 @@ public class LoginActivity extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		super.onActivityResult(requestCode, resultCode, data);
-		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+		//Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

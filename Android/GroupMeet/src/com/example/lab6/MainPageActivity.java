@@ -22,7 +22,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
@@ -55,9 +55,10 @@ public class MainPageActivity extends Activity {
 		pendingDB = DBAdapter.DATABASE_TABLE;
 		confirmedDB = DBAdapter.DATABASE_TABLE2;
 		
-		dbadapter.insertEntry2("FUCK You","And you too");
-		dbadapter.insertEntry("HAHA U LOSER");
-		//dbadapter.removeEntry(2);
+		//dbadapter.insertEntry2("FUCK_PARTY","");
+		//dbadapter.insertEntry("HAHA U LOSER");
+		//dbadapter.removeEntry(pendingDB, 2);
+		//dbadapter.removeEntry(confirmedDB,2);
 		//System.out.println(dbadapter.getEntry(confirmedDB, 1));
 		//Cursor a = dbadapter.getAllEntries(confirmedDB);
 		//System.out.println(a.getCount());
@@ -67,7 +68,7 @@ public class MainPageActivity extends Activity {
 		
 		setWidgets();
 		// call GET method here
-		//getFromServer();
+		getPendingEvents();
 		//getIntersections();
 		
 
@@ -138,12 +139,12 @@ public class MainPageActivity extends Activity {
 		
 		
 	}
-	private void getFromServer()
+	private void getPendingEvents()
 	{
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
     	StrictMode.setThreadPolicy(policy); 
     	String url = "http://data.cs.purdue.edu:12345/readInvites.php";
-    	String email = "fuck@purdue.edu";
+    	String email = "user1@purdue.edu";
     	HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = new HttpPost(url);
 		String result = null;
@@ -166,7 +167,7 @@ public class MainPageActivity extends Activity {
 			e.printStackTrace();
 		}
 		
-		try {
+		try {	
 
 			JSONObject json_data = new JSONObject(result);
 			JSONArray array;
@@ -182,6 +183,10 @@ public class MainPageActivity extends Activity {
 			    	if(j == stk.countTokens()+1)
 			    	{
 			    		events[i]=stk.nextToken();
+			    		if(!dbadapter.searchforPendingDB(events[i]))
+			    		{
+			    			//dbadapter.insertEntry(events[i]);
+			    		}
 			    	}
 			    	else
 			    		stk.nextToken();       
@@ -235,5 +240,78 @@ public class MainPageActivity extends Activity {
 		dbadapter.close();
 		super.onDestroy();
 	}
+	
+	
+	/*private class gettingInfoFromServer extends AsyncTask<String, String, String>
+	{
+		
+
+		@Override
+		protected String doInBackground(String... arg0) {
+			// TODO Auto-generated method stub
+			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+	    	StrictMode.setThreadPolicy(policy); 
+	    	String url = "http://data.cs.purdue.edu:12345/readInvites.php";
+	    	String email = "user1@purdue.edu";
+	    	HttpClient httpclient = new DefaultHttpClient();
+			HttpPost httppost = new HttpPost(url);
+			String result = null;
+			HttpResponse response;
+			String events[];
+			
+			try {
+				ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+	        	postParameters.add(new BasicNameValuePair("user", email));
+	        	httppost.setEntity(new UrlEncodedFormEntity(postParameters));
+	        	response = httpclient.execute(httppost);
+	        	HttpEntity entity = response.getEntity();
+	        	result = EntityUtils.toString(entity);
+	        	
+	        	
+				
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			try {
+
+				JSONObject json_data = new JSONObject(result);
+				JSONArray array;
+				array = json_data.getJSONArray("events");
+				events = new String[array.length()];
+				for(int i = 0 ; i < array.length(); i++)
+				{
+					//System.out.println(array.getJSONObject(i).toString());
+				    StringTokenizer stk = new StringTokenizer(array.getJSONObject(i).toString(), "\"");
+				    for (int j = 0; j <= stk.countTokens()+1; j++) 
+				    {
+				    	
+				    	if(j == stk.countTokens()+1)
+				    	{
+				    		events[i]=stk.nextToken();
+				    		if(!dbadapter.searchforPendingDB(events[i]))
+				    		{
+				    			dbadapter.insertEntry(events[i]);
+				    		}
+				    	}
+				    	else
+				    		stk.nextToken();       
+				    }
+				   
+				}
+				
+				//'events' array has the result received from the server
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			return null;
+		}
+		
+	}*/
 	
 }
