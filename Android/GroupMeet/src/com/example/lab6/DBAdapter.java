@@ -1,5 +1,7 @@
 package com.example.lab6;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -56,8 +58,30 @@ public class DBAdapter {
 	{
 		return db;
 	}
+	public void insertInvited(String meeting_names, String answered)
+	{
+		ContentValues newValues = new ContentValues();
+		newValues.put(KEY_EVENT, meeting_names);
+		newValues.put(KEY_ANSWERED, answered);
+		db.insert(DATABASE_TABLE3, null, newValues);
+	}
+	public ArrayList<String> getAllInvitedEvents()
+	{
+		Cursor c = db.query(DATABASE_TABLE3, new String[]{KEY_EVENT, KEY_ANSWERED} ,null, null, null, null, null);
+		ArrayList<String> list = new ArrayList<String>();
+		int iEvent = c.getColumnIndex(KEY_EVENT);
+		int iANS = c.getColumnIndex(KEY_ANSWERED);
+		
+		for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext())
+		{
+			if(c.getString(iANS).equals("true"))
+				list.add(new String(c.getString(iEvent)));
+		}
+		return list;
+	}
 	
-	public void insertEntry(String meeting_names, String intersections)
+	
+	public void insertPending(String meeting_names, String intersections)
 	{
 		ContentValues newValues = new ContentValues();
 		newValues.put(KEY_TASK, meeting_names);
@@ -65,23 +89,47 @@ public class DBAdapter {
 		db.insert(DATABASE_TABLE, null, newValues);
 		
 	}
-	public boolean searchforPendingDB(String src)
+	public ArrayList<StringPair> getAllPendingDB()
 	{
 		Cursor c = db.query(DATABASE_TABLE, new String[]{KEY_TASK, KEY_INT},null, null, null, null, null);
-		String result="";
+		ArrayList<StringPair> list = new ArrayList<StringPair>();
+		
 		
 		int iTask = c.getColumnIndex(KEY_TASK);
 		int iInt = c.getColumnIndex(KEY_INT);
 		
 		for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext())
 		{
-			if(c.getString(iTask).equals(src))
-			{
-				return true;
-			}
+			list.add(new StringPair(c.getString(iTask), c.getString(iInt)));
 		}
 		
-		return false;
+		return list;
+	}
+	public String getIntesections(String src)
+	{
+		Cursor c = db.query(DATABASE_TABLE, new String[]{KEY_TASK, KEY_INT},KEY_TASK+"="+src, null, null, null, null);
+		if(c!=null)
+		{
+			c.moveToFirst();
+			String intersection = c.getString(1);
+			return intersection;
+		}
+		return null;
+		
+	}
+	
+	public String getHasAnswerd(String src)
+	{
+		Cursor c = db.query(DATABASE_TABLE, new String[]{KEY_EVENT, KEY_ANSWERED},KEY_EVENT+"="+src, null, null, null, null);
+		if(c!=null)
+		{
+			c.moveToFirst();
+			String answered = c.getString(1);
+			return answered;
+			
+		}
+		return null;
+		
 	}
 	public String searchforConfirmedDB(String src)
 	{
@@ -100,44 +148,21 @@ public class DBAdapter {
 		}
 		return result;
 	}
-	public void insertEntry2(String eventname, String confirmedtime)
+	public void insertConfirmed(String eventname, String confirmedtime)
 	{
 		ContentValues newValues = new ContentValues();
 		newValues.put(CONFIRMED_EVENT, eventname);
 		newValues.put(CONFIRMED_TIME, confirmedtime);
 		db.insert(DATABASE_TABLE2, null, newValues);
 	}
-	public boolean removeEntry(String event)
+	
+	public boolean removePending(String event)
 	{
 		return db.delete(DATABASE_TABLE , KEY_TASK+"="+event,null)>0;
 	}
-	public boolean removeEntry2(String event)
+	public boolean removeInvited(String event)
 	{
 		return db.delete(DATABASE_TABLE2, CONFIRMED_EVENT+"="+event,null)>0;
 	}
-	public Cursor getAllEntries(String table)
-	{
-		return db.query(table, new String[]{KEY_TASK, KEY_INT}, null, null, null, null, null);
-	}
-	public String getEntry(String event) throws SQLException
-	{
-		Cursor cursor = db.query(true, DATABASE_TABLE, new String[]{KEY_TASK, KEY_INT},KEY_ID+"="+event,null,null,null,null,null);
-		if((cursor.getCount() == 0 || !cursor.moveToFirst()))
-		{
-			throw new SQLException("No item found for row: "+event);
-		}
-		String item = cursor.getString(1);
-		return item;
-	}
-	public String getEntry2(String event) throws SQLException
-	{
-		Cursor cursor = db.query(true, DATABASE_TABLE2, new String[]{CONFIRMED_EVENT, CONFIRMED_TIME},KEY_ID+"="+event,null,null,null,null,null);
-		if((cursor.getCount() == 0 || !cursor.moveToFirst()))
-		{
-			throw new SQLException("No item found for row: "+event);
-		}
-		String item = cursor.getString(1);
-		return item;
-	}
-
+	
 }
