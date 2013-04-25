@@ -220,7 +220,7 @@ containing a value of this type.
         public static final int list_item_background=0x7f020023;
     }
     public static final class id {
-        public static final int action_settings=0x7f040030;
+        public static final int action_settings=0x7f040032;
         public static final int calendar=0x7f040010;
         public static final int com_facebook_login_activity_progress_bar=0x7f04001c;
         public static final int com_facebook_picker_activity_circle=0x7f04001b;
@@ -254,6 +254,8 @@ containing a value of this type.
         public static final int hours_text=0x7f04002f;
         public static final int invites=0x7f040004;
         public static final int large=0x7f040002;
+        public static final int listView1=0x7f040031;
+        public static final int meeting_item=0x7f040030;
         public static final int meeting_name=0x7f040003;
         public static final int next=0x7f040015;
         public static final int next_week=0x7f040009;
@@ -291,6 +293,8 @@ containing a value of this type.
         public static final int com_facebook_placepickerfragment_list_row=0x7f030011;
         public static final int com_facebook_usersettingsfragment=0x7f030012;
         public static final int hourview_item=0x7f030013;
+        public static final int meeting_list_item=0x7f030014;
+        public static final int pending_meeting=0x7f030015;
     }
     public static final class menu {
         public static final int main=0x7f090000;

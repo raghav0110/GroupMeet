@@ -13,10 +13,13 @@ public class HoursAdapter extends BaseAdapter {
 	private Context mContext;
 	private boolean isSelected[];
 	private String hours[];
-	public HoursAdapter(Context c, boolean selected[], String hours[]){
+	//GroupMeet gm ;
+
+	public HoursAdapter(Context c, boolean selected[], String hours[], GroupMeet gm){
 		this.isSelected = selected;
 		this.mContext = c;
 		this.hours = hours;
+		//this.gm = gm;
 	}
 	
 	@Override

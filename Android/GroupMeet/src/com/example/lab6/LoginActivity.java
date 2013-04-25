@@ -29,7 +29,7 @@ public class LoginActivity extends Activity {
 	EditText text_username, text_email, text_passwd, text_pwdconfirm;
 	Button createAccount, fbButton;
 	private SharedPreferences mPrefs;
-    
+
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,29 +51,7 @@ public class LoginActivity extends Activity {
 			startActivity(i);
 			finish();
 		}
-		/*loginButton.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
 
-			@Override
-			public void onUserInfoFetched(GraphUser user) {
-				// TODO Auto-generated method stub
-				if(user!=null)
-				{
-					Session.getActiveSession().requestNewReadPermissions(newPermissionsRequest);
-					SharedPreferences.Editor editor = mPrefs.edit();
-					editor.putString("UserName", user.getProperty("email").toString());
-					editor.putString("PassWord", "facebook");
-					editor.commit();
-					Toast.makeText(getApplicationContext(), "Facebook account successfully logged in", Toast.LENGTH_LONG).show();
-					
-					sendToServer(user.getProperty("email").toString(), "facebook");
-					Intent i = new Intent(LoginActivity.this, MainPageActivity.class);
-					startActivity(i);
-					//finish();
-					
-				}
-			}
-		});
-*/
 		//General create account function
 		createAccount.setOnClickListener(new View.OnClickListener() {
 
@@ -178,7 +156,7 @@ public class LoginActivity extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		super.onActivityResult(requestCode, resultCode, data);
-		//Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
