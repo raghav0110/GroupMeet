@@ -3,6 +3,7 @@ package com.example.lab6;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -28,8 +29,8 @@ public class LoginActivity extends Activity {
 
 	EditText text_username, text_email, text_passwd, text_pwdconfirm;
 	Button createAccount, fbButton;
-	private SharedPreferences mPrefs;
-
+    private SharedPreferences mPrefs;
+    
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +157,6 @@ public class LoginActivity extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		super.onActivityResult(requestCode, resultCode, data);
-
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
