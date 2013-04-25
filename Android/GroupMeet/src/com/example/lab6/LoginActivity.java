@@ -18,11 +18,11 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         Intent i = new Intent(LoginActivity.this, MainPageActivity.class);
 		startActivity(i);
-        text_username = (EditText)findViewById(R.id.edit_message);
-		text_email = (EditText)findViewById(R.id.email_message);
-		text_passwd = (EditText)findViewById(R.id.passwd_message);
-		text_pwdconfirm = (EditText)findViewById(R.id.pwdconfirm_message);
-		createAccount = (Button)findViewById(R.id.createAccount_button);
+        text_username = (EditText)findViewById(R.id.username);
+		text_email = (EditText)findViewById(R.id.email);
+		text_passwd = (EditText)findViewById(R.id.passwd);
+		text_pwdconfirm = (EditText)findViewById(R.id.pwdconfirm);
+		createAccount = (Button)findViewById(R.id.create_button);
 		createAccount.setOnClickListener(new View.OnClickListener() {
 	
 			@Override

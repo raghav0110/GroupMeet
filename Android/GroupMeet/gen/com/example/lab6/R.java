@@ -145,14 +145,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class id {
         public static final int action_settings=0x7f040020;
         public static final int calendar=0x7f040012;
-        public static final int createAccount_button=0x7f040011;
+        public static final int create_button=0x7f040011;
         public static final int create_meeting=0x7f040013;
         public static final int create_meeting_button=0x7f040007;
         public static final int data=0x7f040018;
         public static final int date=0x7f04001a;
         public static final int date_icon=0x7f04001b;
-        public static final int edit_message=0x7f04000d;
-        public static final int email_message=0x7f04000e;
+        public static final int email=0x7f04000e;
         public static final int fullscreen=0x7f040003;
         public static final int gridview=0x7f040019;
         public static final int header=0x7f040014;
@@ -166,15 +165,16 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int meeting_name=0x7f040005;
         public static final int next=0x7f040017;
         public static final int next_week=0x7f04000b;
-        public static final int passwd_message=0x7f04000f;
+        public static final int passwd=0x7f04000f;
         public static final int previous=0x7f040015;
         public static final int previous_week=0x7f04000c;
-        public static final int pwdconfirm_message=0x7f040010;
+        public static final int pwdconfirm=0x7f040010;
         public static final int right=0x7f040001;
         public static final int selected_view=0x7f040004;
         public static final int slidingmenumain=0x7f04001f;
         public static final int submit_times=0x7f040008;
         public static final int title=0x7f040016;
+        public static final int username=0x7f04000d;
         public static final int week_text=0x7f040009;
     }
     public static final class layout {
@@ -194,13 +194,19 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class string {
         public static final int action_settings=0x7f060001;
+        public static final int app_id=0x7f060007;
         public static final int app_name=0x7f060000;
-        public static final int create_button=0x7f060007;
+        public static final int askfacebook=0x7f06000d;
+        public static final int create_button=0x7f06000c;
         public static final int edit_message=0x7f060003;
+        public static final int email=0x7f060009;
         public static final int email_message=0x7f060004;
         public static final int hello_world=0x7f060002;
+        public static final int passwd=0x7f06000a;
         public static final int passwd_message=0x7f060005;
+        public static final int pwdconfirm=0x7f06000b;
         public static final int pwdconfirm_message=0x7f060006;
+        public static final int username=0x7f060008;
     }
     public static final class style {
         /** 
