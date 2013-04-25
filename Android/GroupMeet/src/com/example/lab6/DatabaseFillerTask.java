@@ -81,7 +81,7 @@ public class DatabaseFillerTask extends AsyncTask<Object, Object, Object> {
 			    	if(j == stk.countTokens()+1)
 			    	{
 			    		events[i]=stk.nextToken();
-			    		db.insertEntry(events[i]);
+			    		//db.insertEntry(events[i]);
 			    	}
 			    	else
 			    		stk.nextToken();       

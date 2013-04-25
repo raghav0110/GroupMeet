@@ -10,18 +10,18 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class MenuAdapter extends ArrayAdapter<String>{
+public class MenuAdapter extends ArrayAdapter<StringPair>{
 Context context;
-ArrayList<String> events;
+ArrayList<StringPair> events;
 @Override
 public int getCount() {
     return events.size();
 }
 
-public MenuAdapter(Context c, ArrayList<String> events) {
+public MenuAdapter(Context c, ArrayList<StringPair> pendingEvents) {
     super(c, R.layout.meeting_list_item);
     context=c;
-    this.events=events;
+    this.events=pendingEvents;
 
 }
 
@@ -37,7 +37,7 @@ public View getView(int position, View convertView, ViewGroup parent) {
     View view=inflater.inflate(R.layout.meeting_list_item, parent, false);
     TextView tv=(TextView) view.findViewById(R.id.meeting_item);
     tv.setTextColor(Color.WHITE);
-    tv.setText(events.get(position));
+    tv.setText(events.get(position).event);
 
     return view;
 }   

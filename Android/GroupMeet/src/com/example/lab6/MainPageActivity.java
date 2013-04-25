@@ -19,21 +19,31 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.slidingmenu.lib.SlidingMenu;
+import com.slidingmenu.lib.SlidingMenu.OnOpenListener;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainPageActivity extends Activity {
 
-	private Button create, calendar;
+	private Button create, calendar, invitedEvents;
 	SharedPreferences mPrefs;
 	DBAdapter dbadapter;
+	ArrayList<StringPair> pendingEvents = new ArrayList<StringPair>();
 	String pendingDB;
 	String confirmedDB;
 	@Override
@@ -67,12 +77,56 @@ public class MainPageActivity extends Activity {
 		//System.out.println(dbadapter.getEntry(pendingDB, 2));
 		
 		setWidgets();
+		final Context context=this;
+	    LayoutInflater inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	    View v=inflater.inflate(R.layout.pending_meeting, null, true);
+
+
+
+	    final ListView lv=(ListView) v.findViewById(R.id.listView1);
+
+	    SlidingMenu menu=new SlidingMenu(this);
+	    menu.setMode(SlidingMenu.LEFT);
+	    menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+	    menu.setShadowWidth(5);
+	    menu.setFadeDegree(0.0f);
+	    menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+	    menu.setBehindWidth(100);
+	    menu.setMenu(v);
+	    menu.setOnOpenListener(new OnOpenListener() {
+
+	        @Override
+	        public void onOpen() {
+	            MenuAdapter ma=new MenuAdapter(context,pendingEvents);
+	            lv.setAdapter(ma);
+	        }
+	    });
+	    lv.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				if(pendingEvents.get(arg2).intersection.equals(" ")){
+					Toast.makeText(MainPageActivity.this, "Please wait for your friends to send their convenient times for the meeting.", Toast.LENGTH_SHORT).show();
+				}else{
+					Intent i = new Intent(MainPageActivity.this,ConfirmActivity.class);
+					i.putExtra("event", pendingEvents.get(arg2).intersection);
+					startActivity(i);
+				}
+			}
+	    	
+	    });
+
+	}
+		
+		
 		// call GET method here
-		getPendingEvents();
+	//	getPendingEvents();
 		//getIntersections();
 		
 
-	}
+
 	
 	private void getIntersections()
 	{
@@ -183,10 +237,10 @@ public class MainPageActivity extends Activity {
 			    	if(j == stk.countTokens()+1)
 			    	{
 			    		events[i]=stk.nextToken();
-			    		if(!dbadapter.searchforPendingDB(events[i]))
-			    		{
+			    	//	if(!dbadapter.searchforPendingDB(events[i]))
+			    	//	{
 			    			//dbadapter.insertEntry(events[i]);
-			    		}
+			    	//	}
 			    	}
 			    	else
 			    		stk.nextToken();       
@@ -205,6 +259,28 @@ public class MainPageActivity extends Activity {
 		
 	}
 	private void setWidgets(){
+		invitedEvents = (Button) findViewById(R.id.invitedEvents);
+		invitedEvents.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(MainPageActivity.this,CreateMeetingActivity.class);
+				startActivity(i);
+			}
+			
+		});
+		create.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(MainPageActivity.this,CreateMeetingActivity.class);
+				startActivity(i);
+			}
+			
+		});
+		
 		create.setOnClickListener(new OnClickListener(){
 
 			@Override
