@@ -19,15 +19,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.slidingmenu.lib.SlidingMenu;
+import com.slidingmenu.lib.SlidingMenu.OnOpenListener;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainPageActivity extends Activity {
 
@@ -35,6 +45,7 @@ public class MainPageActivity extends Activity {
 	SharedPreferences mPrefs;
 	DBAdapter dbadapter;
 	String pendingDB;
+	ArrayList<String> events = new ArrayList<String>();
 	String confirmedDB;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +81,43 @@ public class MainPageActivity extends Activity {
 		//getFromServer();
 		//getIntersections();
 		
+		final Context context=this;
+	    LayoutInflater inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	    View v=inflater.inflate(R.layout.pending_meeting, null, true);
+
+	    //Add method to retreive all entries in pending table and add it to an arrayList
+
+	    final ListView lv=(ListView) v.findViewById(R.id.listView1);
+
+	    SlidingMenu menu=new SlidingMenu(this);
+	    menu.setMode(SlidingMenu.LEFT);
+	    menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+	    menu.setShadowWidth(5);
+	    menu.setFadeDegree(0.0f);
+	    menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+	    menu.setBehindWidth(250);
+	    menu.setMenu(v);
+	    menu.setOnOpenListener(new OnOpenListener() {
+
+	        @Override
+	        public void onOpen() {
+	            MenuAdapter ma=new MenuAdapter(context,events);
+	            lv.setAdapter(ma);
+	        }
+	    });
+		
+	    lv.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View v, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				TextView t = (TextView) v.findViewById(R.id.meeting_item);
+				Intent i = new Intent(MainPageActivity.this,ConfirmActivity.class);
+				startActivity(i);
+			}
+	    	
+	    });
 
 	}
 	
@@ -138,17 +186,17 @@ public class MainPageActivity extends Activity {
 		
 		
 	}
-	private void getFromServer()
+	private String[]  getFromServer()
 	{
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
     	StrictMode.setThreadPolicy(policy); 
     	String url = "http://data.cs.purdue.edu:12345/readInvites.php";
-    	String email = "fuck@purdue.edu";
+    	String email = "user1@purdue.edu";
     	HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = new HttpPost(url);
 		String result = null;
 		HttpResponse response;
-		String events[];
+		String events[]=null;
 		
 		try {
 			ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
@@ -196,7 +244,7 @@ public class MainPageActivity extends Activity {
 		}
 		
 		
-		
+		return events;
 		
 	}
 	private void setWidgets(){

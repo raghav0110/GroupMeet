@@ -1,5 +1,7 @@
 package com.example.lab6;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -10,15 +12,16 @@ import android.widget.TextView;
 
 public class MenuAdapter extends ArrayAdapter<String>{
 Context context;
-
+ArrayList<String> events;
 @Override
 public int getCount() {
-    return 2;
+    return events.size();
 }
 
-public MenuAdapter(Context c) {
+public MenuAdapter(Context c, ArrayList<String> events) {
     super(c, R.layout.meeting_list_item);
     context=c;
+    this.events=events;
 
 }
 
@@ -34,7 +37,7 @@ public View getView(int position, View convertView, ViewGroup parent) {
     View view=inflater.inflate(R.layout.meeting_list_item, parent, false);
     TextView tv=(TextView) view.findViewById(R.id.meeting_item);
     tv.setTextColor(Color.WHITE);
-    tv.setText("Hello World");
+    tv.setText(events.get(position));
 
     return view;
 }   
