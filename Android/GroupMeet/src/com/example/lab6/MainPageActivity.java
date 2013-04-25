@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 
-import com.slidingmenu.lib.SlidingMenu;
-import com.slidingmenu.lib.SlidingMenu.OnOpenListener;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -22,19 +20,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.os.StrictMode;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-
 
 public class MainPageActivity extends Activity {
 
@@ -77,44 +70,6 @@ public class MainPageActivity extends Activity {
 		//getFromServer();
 		//getIntersections();
 		
-		
-		final Context context=this;
-	    LayoutInflater inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    View v=inflater.inflate(R.layout.pending_meeting, null, true);
-
-
-
-	    final ListView lv=(ListView) v.findViewById(R.id.listView1);
-
-	    SlidingMenu menu=new SlidingMenu(this);
-	    menu.setMode(SlidingMenu.LEFT);
-	    menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-	    menu.setShadowWidth(15);
-	    
-	    menu.setFadeDegree(0.0f);
-	    menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-	    menu.setBehindWidth(250);
-	    menu.setMenu(v);
-	    menu.setOnOpenListener(new OnOpenListener() {
-
-	        @Override
-	        public void onOpen() {
-	            MenuAdapter ma=new MenuAdapter(context);
-	            lv.setAdapter(ma);
-	        }
-	    });
-
-		/*
-		setBehindContentView(R.layout.pending_meeting_list);
-		ListView l = (ListView) findViewById(R.id.pending_list);
-		String[] menu = {"Meeting1","Meeting2","Meeting3","Meeting4","Meeting5","Meeting6","Meeting7","Meeting8","Meeting8","Meeting9","Meeting10"};
-	    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-	    R.layout.pending_meeting_list, R.id.item, menu);
-	    l.setAdapter(adapter);
-		
-		getSlidingMenu().setBehindOffset(100);
-		SlidingMenu m=new SlidingMenu(this);
-		*/
 
 	}
 	
