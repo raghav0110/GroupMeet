@@ -1,7 +1,7 @@
 <?php
 
 /*
-Sets EventDate of the Event to the owner selected common date/time
+Returns list of confirmed datetimes of user
  */
 
 $response = array();
@@ -11,6 +11,7 @@ $Database = "GroupMeet";
 $con = mysql_connect(':/homes/byrdc/mysqld/mysqld.sock', "root", "groupmeet");
 if(!$con)
 {
+
 	$response["PASSED"] = 0;
 	$response["message"] = 'Error: ' . mysql_error($con);
 	echo json_encode($response);
@@ -18,51 +19,63 @@ if(!$con)
 }
 
 //POST arguments go here
-$Event = mysql_real_escape_string($_POST[event]);
-$User = mysql_real_escape_string($_POST[user]);
-$Date = $_POST[date];
-
+//$Event = $_POST[event];
+$User = $_POST[user];
 //make the Default Database GroupMeet
+
 mysql_select_db("$Database", $con);
 
-/*
 //check if necessary Posts exists exists
+/*
 $query = mysql_query("<existance query>",$con);
 if(mysql_num_rows($query) <= 0)
 {
+
 	$response["PASSED"] = 0;
 	$response["message"] = "<argument doesn't exist> doesn't exist";
 	echo json_encode($response);
 	exit();
+
 }
  */
-
 //actual query for script;
-$result = mysql_query("UPDATE Events set EventDate='$Date' WHERE EventName='$Event' AND UserName='$User'",$con);
-//if failed
-if(!$result)
-{
+$result = mysql_query("SELECT EventName, EventDate FROM Events WHERE EventDate IS NOT NULL AND UserName='$User'",$con);
+//if failei
+if(!$result){
+
 	$response["PASSED"] = 0;
 	$response["message"] = 'Error: ' . mysql_error($con);
 	echo json_encode($response);
 	exit();
+
 }
 
 //check for empty result
-if(mysql_affected_rows() == 1) {
+if(mysql_num_rows($result) > 0) {
+
+$response["times"] = array();
+
+while($row = mysql_fetch_array($result))
+{
+	//temp array
+	$product = array();
+	$product["myConfirmedEvents"] = $row['EventName'] . "," .  $row['EventDate'];
+	//push single product into final response array
+	array_push($response["times"], $product);
+
+}
 
 $response["PASSED"] = 1;
-$response["message"] = "$Event was confirmed for $Date by $User";
 //send JSON response
 
 echo json_encode($response);
 
-}
-else
-{ //failed; send failure message;
+} else {
+//failed; send failure message;
 	$response["PASSED"] = 0;
-	$response["message"] = "Update Query failed";
+	$response["message"] = "No Confirmations Found";
 	echo json_encode($response);
+
 }
 
 mysql_close($con);

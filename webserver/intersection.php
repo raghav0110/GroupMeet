@@ -22,8 +22,8 @@ if(!$con)
 }
 
 //POST arguments go here
-$Event = $_POST[event];
-$User = $_POST[user];
+$Event = mysql_real_escape_string($_POST[event]);
+$User = mysql_real_escape_string($_POST[user]);
 //make the Default Database GroupMeet
 
 mysql_select_db("$Database", $con);
