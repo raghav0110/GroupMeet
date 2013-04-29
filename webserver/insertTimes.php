@@ -58,6 +58,7 @@ if(mysql_num_rows($query) <= 0)
 		   echo json_encode($Response);
 		   exit();
 }
+$Event = mysql_real_escape_string($Event);
 $query = mysql_query("SELECT * FROM Events WHERE EventName = '$Event'",$con);
 
 if(mysql_num_rows($query) <= 0)

@@ -43,7 +43,7 @@ if(!$con)
 //set Default Database
 mysql_select_db("$Database", $con);
 //Insert Event and Owner in to database;
-
+ $Event = mysql_real_escape_string($Event);
 
 //Check if Owner exists
  $query = mysql_query("SELECT * FROM Users WHERE UserName = '$Owner'",$con);
@@ -70,8 +70,19 @@ if(!mysql_query($sql,$con))
 
 }
 
+$sql = "INSERT INTO Invites (EventName, Username) VALUES ('$Event','$Owner')";
 //send success response
 
+if(!mysql_query($sql,$con))
+{
+	$Response["PASSED"] = 0;
+	$Response["message"] = 'Error: ' . mysql_error($con);
+
+	//send error
+	echo json_encode($Response);
+	exit();
+
+}
 $Response["PASSED"]= 1;
 $Response["message"] = "$Event was successfully created by $Owner";
 echo json_encode($Response);

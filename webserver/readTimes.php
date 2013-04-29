@@ -29,7 +29,7 @@ $Event = $_POST[event];
 mysql_select_db("$Database", $con);
 
 //check if Event exists
-
+$Event = mysql_real_escape_string($Event);
 $query = mysql_query("SELECT * FROM Events WHERE EventName = '$Event'",$con);
 if(mysql_num_rows($query) <= 0)
 {
@@ -62,7 +62,7 @@ while($row = mysql_fetch_array($result))
 {
 	//temp array
 	$product = array();
-	$product["times"] = $row['DateTime'];
+	$product["Date"] = $row['DateTime'];
 	//push single product into final response array
 	array_push($response["times"], $product);
 

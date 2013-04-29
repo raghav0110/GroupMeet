@@ -22,7 +22,7 @@ if(!$con)
 }
 
 //Name of User to search with
-$Event = $_POST[event];
+$Event = mysql_real_escape_string($_POST[event]);
 $User = $_POST[user];
 
 //make the Default Database GroupMeet
@@ -57,15 +57,15 @@ if(!$result){
 //check for empty result
 if(mysql_num_rows($result) > 0) {
 
-$response["times"] = array();
+$response["Dates"] = array();
 
 while($row = mysql_fetch_array($result))
 {
 	//temp array
 	$product = array();
-	$product["times"] = $row['DateTime'];
+	$product["time"] = $row['DateTime'];
 	//push single product into final response array
-	array_push($response["times"], $product);
+	array_push($response["Dates"], $product);
 
 }
 

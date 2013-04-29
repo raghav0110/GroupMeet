@@ -1,6 +1,3 @@
-<html>
-<title> Read Events of a User </title>
-<body>
 <?php
 /* This script takes Post arguments "user" and returns a json response
  * with all events that user has or returns an error json response */
@@ -78,5 +75,3 @@ echo json_encode($response);
 }
 mysql_close($con);
 ?>
-</body>
-</html>
