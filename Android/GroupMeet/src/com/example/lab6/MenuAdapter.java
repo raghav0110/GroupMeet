@@ -12,13 +12,16 @@ import android.widget.TextView;
 
 public class MenuAdapter extends ArrayAdapter<StringPair>{
 Context context;
-ArrayList<StringPair> events;
+ArrayList<String> events;
+String[] eve;
 @Override
 public int getCount() {
     return events.size();
 }
 
-public MenuAdapter(Context c, ArrayList<StringPair> pendingEvents) {
+
+
+public MenuAdapter(Context c, ArrayList<String> pendingEvents) {
     super(c, R.layout.meeting_list_item);
     context=c;
     this.events=pendingEvents;
@@ -37,7 +40,7 @@ public View getView(int position, View convertView, ViewGroup parent) {
     View view=inflater.inflate(R.layout.meeting_list_item, parent, false);
     TextView tv=(TextView) view.findViewById(R.id.meeting_item);
     tv.setTextColor(Color.WHITE);
-    tv.setText(events.get(position).event);
+    tv.setText(events.get(position));
 
     return view;
 }   

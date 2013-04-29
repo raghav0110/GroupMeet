@@ -2,6 +2,7 @@ package com.example.lab6;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,7 +47,11 @@ public class CreateMeetingActivity extends Activity {
 					Toast.makeText(CreateMeetingActivity.this, "Please Fill Up All Empty Fields", Toast.LENGTH_SHORT).show();
 				else{
 					
-					Intent i = new Intent(CreateMeetingActivity.this, HoursGridViewActivity.class);
+					SharedPreferences mPrefs;
+					mPrefs = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+					Intent i = new Intent(CreateMeetingActivity.this,HoursGridViewActivity.class);
+					i.putExtra("email", mPrefs.getString("UserName", ""));					i.putExtra("invites", invites);
+					i.putExtra("event", mName);
 					startActivity(i);
 				}
 				

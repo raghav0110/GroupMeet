@@ -25,6 +25,7 @@ import org.apache.http.util.EntityUtils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -40,6 +41,10 @@ import android.widget.Toast;
 
 public class HoursGridViewActivity extends Activity {
 
+	GroupMeet appState = ((GroupMeet)this.getApplication());
+	
+	DBAdapter dbadapter;
+	
 	private GridView hoursView;
 	private static HashMap<String, boolean[]> dateMap = new HashMap<String, boolean[]>();
 	private int monthcounter,weekcounter =0,datecounter,yearcounter;
@@ -54,6 +59,9 @@ public class HoursGridViewActivity extends Activity {
 	Random r = new Random();
 	int tracker =1;
 	HoursAdapter adapter;
+	String eventName;
+	String userName;
+	String invites;
 	Stack<DateObject> s = new Stack<DateObject>();
 	private TextView weekText,next,previous;
 	ArrayList<boolean[]> selectedTimes = new ArrayList<boolean[]>();
@@ -78,17 +86,29 @@ public class HoursGridViewActivity extends Activity {
 							"11 PM","11 PM","11 PM","11 PM","11 PM","11 PM","11 PM"};
 	
 	private String times[] = {"6:00:00", "7:00:00", "8:00:00", "9:00:00", "10:00:00", "11:00:00", "12:00:00","13:00:00","14:00:00","15:00:00","16:00:00","17:00:00","18:00:00","19:00:00","20:00:00","21:00:00","22:00:00","23:00:00"};
-	
+	boolean isInvite = false;
+
+	private SharedPreferences mPrefs;
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_hoursview);
+		try{
+			Intent intent = getIntent();
+			invites = intent.getStringExtra("invites");
+			eventName = intent.getStringExtra("event");
+			userName = intent.getStringExtra("email");
+			
+		}catch(Exception e){
+			
+		}
 		//myActivity .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		boolean t [] = new boolean[133];
 		for(int i=0; i<133;i++)
 			t[i]=false;
 		isSelected.add(t);
-		
+		dbadapter = new DBAdapter(this);
+		dbadapter = dbadapter.open();
 			
 		Calendar cal = Calendar.getInstance();
 		monthcounter = cal.get(Calendar.MONTH)+1;
@@ -232,7 +252,7 @@ public class HoursGridViewActivity extends Activity {
 				dates=dates.substring(0,dates.length()-1);
 				Toast.makeText(HoursGridViewActivity.this, dates, Toast.LENGTH_LONG).show();
 				
-				sendToServer("Clydes_Vasectomy"+r.nextInt(100000),"byrdc@purdue.edu","user1@purdue.edu,user2@purdue.edu");
+				sendToServer(eventName,userName,invites);
 				
 				Intent i = new Intent(HoursGridViewActivity.this, MainPageActivity.class);
 
@@ -441,16 +461,19 @@ public class HoursGridViewActivity extends Activity {
     	StrictMode.setThreadPolicy(policy); 
     	HttpClient httpclient = new DefaultHttpClient();
     	HttpPost httppost = new HttpPost("http://data.cs.purdue.edu:12345/insertEvents.php");
-    	
-    
+    	ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+    	HttpResponse response;
     	try {
-    		ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+    		if(!invites.equals("invites")){
+ 
+    		
         	postParameters.add(new BasicNameValuePair("owner", userName));
         	postParameters.add(new BasicNameValuePair("event", eventName));
         	httppost.setEntity(new UrlEncodedFormEntity(postParameters));
-        	HttpResponse response = httpclient.execute(httppost);
+        	 response = httpclient.execute(httppost);
 			Log.d("GroupMeet", EntityUtils.toString(response.getEntity()));
-
+			
+			dbadapter.insertPending(eventName, " ");
         	   	
 			 httpclient = new DefaultHttpClient();
 	    	 httppost = new HttpPost("http://data.cs.purdue.edu:12345/insertInvites.php");
@@ -461,6 +484,7 @@ public class HoursGridViewActivity extends Activity {
             	httppost.setEntity(new UrlEncodedFormEntity(postParameters));
             	response = httpclient.execute(httppost);
             	Log.d("GroupMeet", EntityUtils.toString(response.getEntity()));
+            	
         	}
         	else{
         	String users[] = invites.split(",");
@@ -475,6 +499,7 @@ public class HoursGridViewActivity extends Activity {
             	Log.d("GroupMeet", EntityUtils.toString(response.getEntity()));
         	}
         	}
+    		}
         	 httpclient = new DefaultHttpClient();
 	    	 httppost = new HttpPost("http://data.cs.purdue.edu:12345/insertTimes.php");
         	if(!dates.contains(",")){
